@@ -1,48 +1,56 @@
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top  header-transparent ">
+<header id="header" class="fixed-top header-transparent">
   <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo Section -->
+      <div class="logo">
+          <a href="/home">
+              <img src="assets/img/logo.png" alt="Logo Poliklinik POLIJE" class="img-fluid">
+          </a>
+      </div>
 
-    <div class="logo">
-      <!-- <h1><a href="index.html">Poliklinik POLIJE</a></h1> -->
+      <!-- Navigation Section -->
+      <nav id="navbar" class="navbar">
+          <ul>
+              <li><a href="#hero" class="nav-link scrollto active">Beranda</a></li>
+              <li><a href="#features" class="nav-link scrollto">Tentang</a></li>
+              <li><a href="#details" class="nav-link scrollto">Layanan</a></li>
+              <li><a href="#contact" class="nav-link scrollto">Kontak</a></li>
 
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <a href="/home"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
-    </div>
-
-    <nav id="navbar" class="navbar">
-      <ul>
-        <li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
-        <li><a class="nav-link scrollto" href="#features">Tentang</a></li>
-        <li><a class="nav-link scrollto" href="#details">Layanan</a></li>
-        <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
-     
-
-      @auth
-        <div class="dropdown ms-3">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{ auth()->user()->name }}
-            </button>
-            <ul class="dropdown-menu">
-              @if (auth()->user()->roles === 'admin')
-                <li><a class="dropdown-item" href="/dashboard">Dashboard </a></li>
-              @else
-                <li><a class="dropdown-item" href="/antrian">Menu Antrian </a></li>
-              @endif    
+              <!-- User Authentication Dropdown -->
+              <!-- User Authentication Dropdown -->
+              @auth
+              <li class="dropdown ms-3">
+                <a href="#" class="text-decoration-none dropdown-toggle d-flex align-items-center" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="assets/img/user1.jpg" alt="Avatar Pengguna" class="rounded-circle me-2" style="width: 35px; height: 35px;"> <!-- Anda bisa mengganti dengan avatar pengguna -->
+                  <span>{{ auth()->user()->name }}</span> <!-- Nama Pengguna -->
+              </a>
               
-                <form action="/logout" method="post">
-                  @csrf
-                  <button type="submit" class="dropdown-item">
-                    <span class="align-middle">Keluar</span>
-                  </button>
-                </form>
+              <!-- Dropdown Menu -->
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  @if (auth()->user()->roles === 'admin')
+                  <li><a href="/dashboard" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                  @else
+                  <!-- Notifikasi -->
+                  <li><a href="/notifikasi" class="dropdown-item"><i class="fas fa-bell"></i> Notifikasi</a></li>
+                  <li><a href="/antrian" class="dropdown-item"><i class="fas fa-list"></i> Menu Antrian</a></li>
+                  <li><a href="/layanan" class="dropdown-item"><i class="fas fa-tools"></i> Layanan</a></li>
+                  @endif
+                  <!-- Pisahkan dengan garis jika diperlukan -->
+                  <div class="dropdown-divider"></div>
+                  <!-- Logout -->
+                  <form action="{{ route('logout') }}" method="post">
+                      @csrf
+                      <button type="submit" class="dropdown-item">
+                          <i class="fas fa-sign-out-alt"></i> Keluar
+                      </button>
+                  </form>
+              </ul>
+              </li>
+              @endauth
 
-            </ul>
-        </div>
-      @else
-        <a href="/login" class="getstarted scrollto">Masuk</a>
-      @endauth
-    </ul>
-    <i class="bi bi-list mobile-nav-toggle "></i>
-  </nav><!-- .navbar -->
-    </div>
-  </header><!-- End Header -->
+          </ul>
+          <!-- Mobile Navigation Toggle Button -->
+          <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+  </div>
+</header><!-- End Header -->

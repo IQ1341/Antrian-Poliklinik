@@ -13,38 +13,38 @@
             <h1>Selamat Datang <br> Di Website Poliklinik Politeknik Negeri Jember</h1>
             <h2>Memberikan pelayanan yang benar-benar nyaman, gampang, efisien, cepat, dan menghadirkan nuansa yang menunjang kesembuhan pasien.</h2>
 
-            <!-- Informasi Antrian -->
-            @if(auth()->check())
-              <a href="#" class="btn btn-success" data-toggle="modal" data-target="#formAntrianModal">
+          @if(auth()->check())
+
+        @if($antrian)
+        <div id="statusAntrian" class="p-3 rounded-2 mt-3 shadow" style="background: linear-gradient(45deg, #4a90e2, #8d4fff); width: 90%;  display: flex; ">
+          <div style="flex: 1;">
+              <h2 class="text-white mb-3" style="font-size: 2rem;">Status Antrian</h2>
+              <p class="text-white mb-2" style="font-size: 1.2rem;">👤 <strong>Nama:</strong> <span id="namaUser">{{ auth()->user()->name }}</span></p>
+              <p class="text-white mb-2" style="font-size: 1.2rem;">🎟️ <strong>Nomor Antrian:</strong> <span id="nomorAntrian">{{ $antrian->nomor_antrian }}</span></p>
+              <p class="text-white mb-2" style="font-size: 1.2rem;">🏥 <strong>Poli:</strong> <span id="poliAntrian">{{ $antrian->poliklinik }}</span></p>
+              <p class="text-white" style="font-size: 1.2rem;">⏳ <strong>Status:</strong> <span id="status">{{ $antrian->status }}</span></p>
+          </div>
+          <div style="flex: 0.5; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <i class="bx bx-time" style="font-size: 3rem; color: #ffffff; margin-bottom: 1rem;"></i>
+              <h3 class="text-white mb-3" style="font-size: 1rem;">Waktu Tunggu</h3>
+              <span id="waktuTunggu" class="fw-bold text-white" style="font-size: 2rem;">00:15:30</span>
+              <div class="mt-4" style="width: 100%; display: flex; justify-content: center;">
+                  <button type="button" class="btn btn-outline-light" style="font-size: 1.4rem; padding: 5px 10px;" onclick="batalkanAntrian()">
+                      <i class="bx bx-x" style="font-size: 1rem; margin-right: 5px;"></i>Batalkan
+                  </button>
+              </div>
+          </div>
+      </div>
+        @else
+            <a href="#" class="btn btn-primary " style="background-color: #0d5771; border-color: #0d5771;" data-bs-toggle="modal" data-bs-target="#formAntrianModal">
                 <i class="bx bx-id-card"></i> Ambil Antrian
-              </a>
-            @else
-            <div id="statusAntrian" class=" p-3 rounded mt-3 text-white" style="background-color: #0876dd;">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <h4>Status Antrian:</h4>
-                  <p>Nomor Antrian: <span id="nomorAntrian" class="fw-bold">XYZ</span></p>
-                  <p>Poli: <span id="poliAntrian" class="fw-bold">Poli ABC</span></p>
-                </div>
-                <div>
-                  <i class="bx bx-time"></i>
-                  <span id="waktuTunggu" class="fw-bold">00:15:30</span>
-                </div>
-              </div>
-            
-              <div class="mt-2">
-                <div class="progress">
-                  <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated"
-                    style="width: 70%;" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small>Proses Antrian</small>
-              </div>
-            
-              <button type="button" class="btn btn-danger btn-sm mt-2" onclick="batalkanAntrian()">
-                <i class="bx bx-x"></i> Batalkan Antrian
-              </button>
-            </div>
-            @endif
+            </a>
+        @endif
+    @else
+        <a href="#" class="btn btn-primary " style="background-color: #0d5771; border-color: #0d5771;" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <i class="bx bx-id-card"></i> Ambil Antrian
+        </a>
+    @endif
           </div>
         </div>
         <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img" data-aos="fade-up">
@@ -53,71 +53,16 @@
       </div>
     </div>
   </section><!-- End Hero -->
-  <!-- Queue Form Modal -->
-  <div class="modal fade" id="formAntrianModal" tabindex="-1" role="dialog" aria-labelledby="formAntrianModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="background-color: #c0c7d0; /* Warna sesuai preferensi Anda */">
-        <div class="modal-header">
-          <h4 class="modal-title fw-bold" id="formAntrianModalLabel" style="color: #0476a0; /* Warna biru gelap */">Form Antrian</h4>
-          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6 d-flex align-items-center justify-content-start">
-              <img src="assets/img/fasilitas2.png" class="img-fluid" alt="Form Image">
-            </div>
-            <div class="col-md-6">
-              <!-- Add your queue form elements here -->
-              <form>
-                <!-- Form fields go here -->
-                <div class="mb-3">
-                  <label for="nama" class="form-label fw-bold" style="color: #0d5771;">Nama</label>
-                  <input type="text" class="form-control" id="nama" name="nama" required
-                    placeholder="Masukkan Nama" style="color: #0d5771; border: 1px solid #0d5771; /* Warna biru gelap */">
-                </div>
-                <div class="mb-3">
-                  <label for="nomor_antrian" class="form-label fw-bold" style="color: #0d5771;">Nomor HP</label>
-                  <input type="text" class="form-control" id="nomor_antrian" name="nomor_antrian" required
-                    placeholder="Masukkan Nomor HP"
-                    style="color: #0d5771; border: 1px solid #0d5771; /* Warna biru gelap */">
-                </div>
-                <div class="mb-3">
-                  <label for="poliklinik" class="form-label fw-bold" style="color: #0d5771;">Poli</label>
-                  <select class="form-select" id="poliklinik" name="poliklinik" required
-                    style="color: #0d5771; border: 1px solid #0d5771; /* Warna biru gelap */">
-                    <option value="" selected disabled>Pilih Poliklinik</option>
-                    <option value="Poli Umum">Poli Umum</option>
-                    <option value="Poli Gigi">Poli Gigi</option>
-                    <!-- Add more polyclinics as needed -->
-                  </select>
-                </div>
-                <!-- Add more form fields as needed -->
 
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formAntrianModal"
-                  style="background-color: #0d5771; border-color: #0d5771; /* Warna biru gelap */">
-                  <i class="bx bx-id-card"></i> Ambil Antrian
-                </button>
 
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  @include('antrian.data-antrian')
+  @include('auth.login')
+  @include('auth.register')
   
 
-  
-  
-
-
-
-    <!-- ======= Details Section ======= -->
-    
       <div class="container">
 
-        <div class="row content">
+        <div id="features" class="row content mt-4">
           <div class="col-md-4" data-aos="fade-right">
             <img src="assets/img/visi.png" class="img-fluid" alt="">
           </div>
